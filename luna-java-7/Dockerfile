@@ -1,19 +1,20 @@
 FROM java:7
-MAINTAINER Fabio Rehm "fgrehm@gmail.com"
+MAINTAINER Stephen Larson "slarson@openworm.org"
 
 # Install libgtk as a separate step so that we can share the layer above with
 # the netbeans image
-RUN apt-get update && apt-get install -y libgtk2.0-0 libcanberra-gtk-module
+RUN apt-get update && apt-get install -y libgtk2.0-0 libcanberra-gtk-module sudo
 
-RUN wget http://ftp.ntua.gr/eclipse/technology/epp/downloads/release/luna/SR2/eclipse-jee-luna-SR2-linux-gtk-x86_64.tar.gz -O /tmp/eclipse.tar.gz -q && \
+RUN wget http://ftp.ntua.gr/eclipse/technology/epp/downloads/release/luna/SR2/eclipse-jee-luna-SR2-linux-gtk-x86_64.tar.gz -O /tmp/eclipse.ta$
     echo 'Installing eclipse' && \
     tar -xf /tmp/eclipse.tar.gz -C /opt && \
     rm /tmp/eclipse.tar.gz
 
 ADD run /usr/local/bin/eclipse
+RUN useradd -ms /bin/bash developer
 
 RUN chmod +x /usr/local/bin/eclipse && \
-    mkdir -p /home/developer && \
+    mkdir -p /home/developer && mkdir -p /etc/sudoers.d \
     echo "developer:x:1000:1000:Developer,,,:/home/developer:/bin/bash" >> /etc/passwd && \
     echo "developer:x:1000:" >> /etc/group && \
     echo "developer ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/developer && \
