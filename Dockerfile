@@ -1,4 +1,4 @@
-FROM jontutcher/ubuntu-rd:16.10
+FROM jontutcher/ubuntu-rd:14.04
 MAINTAINER Jon Tutcher "jon.tutcher@bbc.co.uk"
 
 RUN sed 's/main$/main universe/' -i /etc/apt/sources.list && \
@@ -6,13 +6,11 @@ RUN sed 's/main$/main universe/' -i /etc/apt/sources.list && \
     add-apt-repository ppa:webupd8team/java -y && \
     apt-get update && \
     echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
-    apt-get install -y oracle-java8-installer libxext-dev libxrender-dev libxtst-dev g++ mercurial make autoconf libtool libncurses5-dev bison flex && \
+    apt-get install -y oracle-java8-installer libxext-dev libxrender-dev libxtst-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/*
 
-# Install libgtk as a separate step so that we can share the layer above with
-# the netbeans image
 RUN apt-get update && apt-get install -y libgtk2.0-0 libcanberra-gtk-module
 
 RUN mkdir /opt/tbc
