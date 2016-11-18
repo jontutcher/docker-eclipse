@@ -1,2 +1,0 @@
-echo 'This will take a lot of time...'
-docker build -t slarson/docker-eclipse:mars-java-8 .
